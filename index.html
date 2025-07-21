@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VAL CHEESE AIM ASSIST</title>
+    <link rel="icon" href="cheeselogo1.png">
     <style>
         :root {
             --primary: #3a0ca3;
@@ -11,6 +12,21 @@
             --accent: #4cc9f0;
             --dark: #1a1a2e;
             --light: #f8f9fa;
+
+            /* New unique colors for boxes */
+            --box-color-1: rgba(76, 201, 240, 0.15); /* Accent light blue */
+            --box-color-2: rgba(247, 37, 133, 0.15); /* Secondary pink */
+            --box-color-3: rgba(58, 12, 163, 0.15);  /* Primary purple */
+            --box-color-4: rgba(255, 165, 0, 0.15);  /* Orange */
+            --box-color-5: rgba(0, 200, 83, 0.15);   /* Green */
+            --box-color-6: rgba(255, 69, 0, 0.15);   /* Red-orange */
+            --box-color-7: rgba(138, 43, 226, 0.15); /* Blue-violet */
+            --box-color-8: rgba(255, 215, 0, 0.15);  /* Gold */
+
+            /* Standout color for purchase */
+            --purchase-standout-bg: linear-gradient(45deg, #ff4d4d, #f3ff47, #4dfd72); /* RGB gradient */
+            --purchase-standout-shadow: 0 0 25px rgba(255, 77, 77, 0.7);
+            --rgb-animation: rgbWave 5s linear infinite;
         }
 
         body {
@@ -30,7 +46,7 @@
             text-align: center;
             position: relative;
             z-index: 1;
-            max-width: 800px;
+            max-width: 800px; /* This max-width applies to the overall container, not the flex items */
             padding: 2rem;
             /* height, max-height, and overflow-y are now controlled by .container-scrollable */
         }
@@ -40,6 +56,7 @@
             height: auto; /* Allow height to adjust based on content */
             max-height: 90vh; /* Apply max-height here */
             overflow-y: auto; /* Apply overflow-y here */
+            max-width: 1200px; /* Increase max-width for the scrollable state to accommodate 4 columns */
         }
 
         h1 {
@@ -86,70 +103,253 @@
 
         /* Styles for the announcement section */
         .announcement {
-            display: none; /* Hidden by default */
+            display: flex; /* Always rendered in flex mode */
+            flex-wrap: wrap;
             opacity: 0;
-            transition: opacity 1s ease-in; /* Transition for fading in */
+            transition: opacity 0.4s ease-in, visibility 0.4s;
+            visibility: hidden; /* Hide using visibility to maintain layout */
 
             /* --- FLEXBOX STYLES --- */
-            display: flex; /* Make it a flex container */
-            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: center; /* Center items horizontally */
             justify-content: center; /* Center items horizontally */
             gap: 1rem; /* Space between flex items */
             align-items: stretch; /* Make items stretch to equal height */
         }
 
         .announcement.active {
-            display: flex; /* Override display: none when active */
             opacity: 1;
+            visibility: visible;
         }
 
         .particles {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
         }
 
         /* Styles for the announcement sections */
         .announcement-section {
             margin: 0; /* Remove margin as gap handles spacing */
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1); /* Default fallback */
             padding: 1rem;
             border-radius: 8px;
-            transition: transform 0.3s ease, background 0.3s ease; /* Transition for hover effect */
-
-            /* --- FLEX ITEM STYLES --- */
-            flex: 1 1 300px; /* Allow items to grow, shrink, and have a base width of 300px */
-            max-width: calc(50% - 0.5rem); /* Max width for two columns with gap */
-            min-width: 280px; /* Minimum width before wrapping */
-            box-sizing: border-box; /* Include padding in width calculation */
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease; /* Transition for hover effect */
             text-align: left; /* Align text within the box to the left */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
         }
+
+        /* Unique colors for each announcement section */
+        .announcement-section:nth-child(1) { background: var(--box-color-1); }
+        .announcement-section:nth-child(2) { background: var(--box-color-2); }
+        .announcement-section:nth-child(3) { background: var(--box-color-3); }
+        .announcement-section:nth-child(4) { background: var(--box-color-4); }
+        .announcement-section:nth-child(5) { background: var(--box-color-5); }
+        .announcement-section:nth-child(6) { background: var(--box-color-6); }
 
         .announcement-section:hover {
-            transform: scale(1.05); /* Slightly increase size on hover */
-            background: rgba(74, 201, 240, 0.2); /* Change background color on hover */
+            transform: translateY(-5px) scale(1.03);
+            background: rgba(74, 201, 240, 0.2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                        box-shadow 0.3s ease,
+                        background 0.3s ease;
         }
 
-        /* Responsive styles */
-        @media (max-width: 768px) {
+        /* New styles for Discord and Purchase sections */
+        .action-section {
+            background: rgba(255, 255, 255, 0.15); /* Default fallback */
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 0; /* Reset margin-top as gap handles spacing */
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+        }
+
+        /* Unique colors for action sections */
+        .action-section:nth-of-type(1) { /* Discord box */
+            background: var(--box-color-7);
+        }
+
+        .action-section:nth-of-type(2) { /* Purchase box - STANDS OUT */
+            background: var(--purchase-standout-bg);
+            background-size: 200% 200%;
+            animation: var(--rgb-animation);
+            color: var(--light); /* Ensure text is readable */
+            box-shadow: var(--purchase-standout-shadow);
+            border: 2px solid var(--accent); /* Add a border for extra pop */
+            transform: scale(1.02); /* Slightly larger by default */
+        }
+
+        .action-section:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: rgba(74, 201, 240, 0.25);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1), 
+                        box-shadow 0.3s ease,
+                        background 0.3s ease;
+        }
+
+        /* Specific hover for the purchase box */
+        .action-section:nth-of-type(2):hover {
+            transform: scale(1.08) translateY(-5px);
+            background: linear-gradient(45deg, #ff6b6b, #ffff5e, #5eff88);
+            background-size: 200% 200%;
+            animation: var(--rgb-animation) 3s linear infinite;
+            box-shadow: 0 0 35px rgba(255, 77, 77, 0.9), 0 0 15px rgba(95, 255, 136, 0.7);
+            transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                        box-shadow 0.3s ease;
+        }
+
+
+        .action-section h3 {
+            color: var(--accent); /* Default for action sections */
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        /* Make purchase box heading white for contrast */
+        .action-section:nth-of-type(2) h3 {
+            color: var(--light);
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        .action-section p {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-button {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(45deg, var(--secondary), var(--primary)); /* Reverse gradient on hover */
+        }
+
+        /* Flex item sizing for 4-in-a-row layout */
+        .announcement-section, .action-section {
+            flex: 1 1 calc(25% - 0.75rem); /* Four columns with 1rem gap */
+            max-width: calc(25% - 0.75rem); /* Adjust max-width for four columns */
+            min-width: 200px; /* Smaller min-width to allow more items per row */
+            box-sizing: border-box; /* Include padding in width calculation */
+        }
+
+        /* Responsive adjustments for 4-in-a-row */
+        @media (max-width: 1200px) {
+            .announcement-section, .action-section {
+                flex: 1 1 calc(33.333% - 0.66rem); /* 3 columns */
+                max-width: calc(33.333% - 0.66rem);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .announcement-section, .action-section {
+                flex: 1 1 calc(50% - 0.5rem); /* 2 columns */
+                max-width: calc(50% - 0.5rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .announcement-section, .action-section {
+                flex: 1 1 100%; /* 1 column */
+                max-width: 100%;
+            }
             h1 {
                 font-size: 2.5rem;
             }
-            .announcement-section {
-                max-width: 100%; /* On smaller screens, stack them */
-            }
-            /* Adjust container for smaller screens when announcement is active */
             .container.container-scrollable { /* Apply to the scrollable state */
                 max-width: 95%; /* Give more horizontal space */
                 padding: 1rem;
             }
         }
+
+        /* Styles for the new tab navigation */
+        .tab-navigation {
+            opacity: 0;
+            transition: opacity 0.5s ease-in 0.5s; /* Fade in with delay */
+            position: absolute;
+            top: 20px; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10; /* Ensure it's above other content */
+            display: flex;
+            gap: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab-item {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tab-item:hover {
+            background-color: rgba(76, 201, 240, 0.2); /* Accent light blue */
+            transform: translateY(-2px);
+        }
+
+        .tab-item.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--light);
+            box-shadow: 0 0 15px rgba(58, 12, 163, 0.7);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive adjustments for tabs */
+        @media (max-width: 600px) {
+            .tab-navigation {
+                top: 10px;
+                padding: 8px 15px;
+                gap: 10px;
+            }
+            .tab-item {
+                font-size: 0.9rem;
+                padding: 6px 10px;
+            }
+        }
     </style>
 </head>
 <body>
+    <div class="tab-navigation" style="display: none;">
+        <a href="#" class="tab-item active" id="main-tab">MAIN</a>
+        <a href="#" class="tab-item" id="showcase-tab">SHOWCASE</a>
+    </div>
     <div class="particles" id="particles-js"></div>
     <div class="container" id="main-container">
         <div class="logo">
@@ -199,6 +399,18 @@
                 <h3>📞 Need Help?</h3>
                 <p>If you have any questions about the update, feel free to contact us directly. We’re here to support you throughout the transition.</p>
             </div>
+
+            <!-- New Discord and Purchase Sections -->
+            <div class="action-section">
+                <h3>💬 Join Our Discord!</h3>
+                <p>Connect with our community, get support, and stay updated with the latest news and announcements.</p>
+                <a href="#" class="action-button">Join Discord</a>
+            </div>
+            <div class="action-section">
+                <h3>🛒 Purchase Access</h3>
+                <p>Ready to elevate your game? Get instant access to the Web UI Colorbot Aim Assist.</p>
+                <a href="#" class="action-button">Buy Now</a>
+            </div>
         </div>
     </div>
 
@@ -210,6 +422,10 @@
             const announcement = document.getElementById('announcement'); // Get the announcement div
             const mainContainer = document.getElementById('main-container'); // Get the main container
             
+            // New tab elements
+            const mainTab = document.getElementById('main-tab');
+            const showcaseTab = document.getElementById('showcase-tab');
+
             function createParticle() {
                 const particle = document.createElement('div');
                 particle.style.position = 'absolute';
@@ -237,22 +453,10 @@
             
             // Continuous particle creation
             setInterval(createParticle, 1000);
-            
-            // Add CSS animation for particles
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes float {
-                    0% {
-                        transform: translateY(0) rotate(0deg);
-                        opacity: 1;
-                    }
-                    100% {
-                        transform: translateY(-100vh) rotate(360deg);
-                        opacity: 0;
-                    }
-                }
-            `;
-            document.head.appendChild(style);
+
+            // Keep particles container visible and on top
+            particles.style.pointerEvents = 'none';
+            particles.style.zIndex = '0';
 
             // --- Smooth Transition Logic ---
             // Delay before starting the fade-out of the initial content
@@ -270,9 +474,42 @@
                     announcement.classList.add('active'); // Show and fade in the announcement
                     
                     // Add the class to enable scrolling for the container
-                    mainContainer.classList.add('container-scrollable'); 
+                    mainContainer.classList.add('container-scrollable');
+                    
+                    // Show and fade in the tab navigation after transition
+                    const tabs = document.querySelector('.tab-navigation');
+                    tabs.style.display = 'flex';
+                    setTimeout(() => {
+                        tabs.style.opacity = '1';
+                    }, 50); // Small delay to allow display change before opacity transition 
                 }, transitionDuration); // Wait for the fade-out to complete
             }, initialDisplayDuration);
+
+            // --- Tab Functionality ---
+            mainTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                mainTab.classList.add('active');
+                showcaseTab.classList.remove('active');
+                // Show the announcement section when Main tab is active
+                announcement.style.pointerEvents = 'auto'; // Reset pointer events
+                mainContainer.classList.add('container-scrollable');
+                setTimeout(() => {
+                    announcement.classList.add('active');
+                }, 10); // Small delay to ensure layout is ready
+            });
+
+            showcaseTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                showcaseTab.classList.add('active');
+                mainTab.classList.remove('active');
+                // Hide the announcement section when Showcase tab is active
+                announcement.style.pointerEvents = 'none'; // Prevent interaction during fade
+                announcement.classList.remove('active');
+                setTimeout(() => {
+                    mainContainer.classList.remove('container-scrollable');
+                    announcement.style.pointerEvents = 'auto'; // Reset after transition completes
+                }, 400); // Remove scroll after fade completes
+            });
         });
     </script>
 </body>
