@@ -23,7 +23,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevents body scrollbar if particles go out of bounds */
         }
 
         .container {
@@ -32,10 +32,14 @@
             z-index: 1;
             max-width: 800px;
             padding: 2rem;
-            /* Allow container to grow vertically if content wraps */
-            height: auto;
-            max-height: 90vh; /* Limit height to prevent overflow on small screens */
-            overflow-y: auto; /* Add scroll if content exceeds max-height */
+            /* height, max-height, and overflow-y are now controlled by .container-scrollable */
+        }
+
+        /* New class for scrollable container state */
+        .container.container-scrollable {
+            height: auto; /* Allow height to adjust based on content */
+            max-height: 90vh; /* Apply max-height here */
+            overflow-y: auto; /* Apply overflow-y here */
         }
 
         h1 {
@@ -75,7 +79,7 @@
             opacity: 0;
             transition: opacity 1s ease-in; /* Transition for fading in */
 
-            /* --- NEW FLEXBOX STYLES --- */
+            /* --- FLEXBOX STYLES --- */
             display: flex; /* Make it a flex container */
             flex-wrap: wrap; /* Allow items to wrap to the next line */
             justify-content: center; /* Center items horizontally */
@@ -105,7 +109,7 @@
             border-radius: 8px;
             transition: transform 0.3s ease, background 0.3s ease; /* Transition for hover effect */
 
-            /* --- NEW FLEX ITEM STYLES --- */
+            /* --- FLEX ITEM STYLES --- */
             flex: 1 1 300px; /* Allow items to grow, shrink, and have a base width of 300px */
             max-width: calc(50% - 0.5rem); /* Max width for two columns with gap */
             min-width: 280px; /* Minimum width before wrapping */
@@ -126,11 +130,8 @@
             .announcement-section {
                 max-width: 100%; /* On smaller screens, stack them */
             }
-        }
-
-        /* Adjust container for smaller screens when announcement is active */
-        @media (max-width: 768px) {
-            .container.announcement-active { /* Add this class via JS when announcement is shown */
+            /* Adjust container for smaller screens when announcement is active */
+            .container.container-scrollable { /* Apply to the scrollable state */
                 max-width: 95%; /* Give more horizontal space */
                 padding: 1rem;
             }
@@ -139,7 +140,7 @@
 </head>
 <body>
     <div class="particles" id="particles-js"></div>
-    <div class="container" id="main-container"> <!-- Added ID for potential JS use -->
+    <div class="container" id="main-container">
         <div class="logo">
             <div class="logo-circle"></div>
         </div>
@@ -166,7 +167,7 @@
                 <ul>
                     <li>✅ Modern & Intuitive Interface</li>
                     <li>✅ Real-Time Updates Without Restarting</li>
-                    <li><li>✅ Expanded Configurability</li>
+                    <li>✅ Expanded Configurability</li>
                     <li>✅ Improved Performance</li>
                 </ul>
             </div>
@@ -197,7 +198,7 @@
             const initialContent = document.getElementById('initial-content'); // Get the initial content div
             const announcement = document.getElementById('announcement'); // Get the announcement div
             const mainContainer = document.getElementById('main-container'); // Get the main container
-
+            
             function createParticle() {
                 const particle = document.createElement('div');
                 particle.style.position = 'absolute';
@@ -256,7 +257,9 @@
                 setTimeout(() => {
                     initialContent.style.display = 'none'; // Hide initial content completely
                     announcement.classList.add('active'); // Show and fade in the announcement
-                    mainContainer.classList.add('announcement-active'); // Add class to container for responsive adjustments
+                    
+                    // Add the class to enable scrolling for the container
+                    mainContainer.classList.add('container-scrollable'); 
                 }, transitionDuration); // Wait for the fade-out to complete
             }, initialDisplayDuration);
         });
