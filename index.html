@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="logo.png">
     <title>VAL CHEESE AIM ASSIST</title>
     <style>
         :root {
@@ -56,6 +55,17 @@
             letter-spacing: 0.2em;
         }
 
+        .announcement {
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .announcement.active {
+            display: block;
+            opacity: 1;
+        }
+
         .particles {
             position: absolute;
             top: 0;
@@ -65,81 +75,24 @@
             z-index: 0;
         }
 
-        .logo {
-            margin-bottom: 2rem;
-        }
-
-        .logo-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary), var(--secondary));
-            margin: 0 auto;
-            box-shadow: 0 0 30px rgba(247, 37, 133, 0.6);
-            position: relative;
-            animation: pulse 2s infinite alternate;
-        }
-
-        .logo-circle::before {
-            content: '';
-            position: absolute;
-            width: 80%;
-            height: 80%;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            top: 10%;
-            left: 10%;
-            animation: rotate 10s linear infinite;
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .tech-item {
+        /* Styles for the announcement sections */
+        .announcement-section {
+            margin: 1rem 0;
             background: rgba(255, 255, 255, 0.1);
             padding: 1rem;
             border-radius: 8px;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, background 0.3s ease; /* Transition for hover effect */
         }
 
-        .tech-item:hover {
-            transform: translateY(-5px);
-            background: rgba(74, 201, 240, 0.2);
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 30px rgba(247, 37, 133, 0.6);
-            }
-            100% {
-                transform: scale(1.05);
-                box-shadow: 0 0 50px rgba(247, 37, 133, 0.8);
-            }
-        }
-
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+        .announcement-section:hover {
+            transform: scale(1.05); /* Slightly increase size on hover */
+            background: rgba(74, 201, 240, 0.2); /* Change background color on hover */
         }
 
         /* Responsive styles */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
-            }
-            
-            .logo-circle {
-                width: 80px;
-                height: 80px;
             }
         }
     </style>
@@ -153,6 +106,44 @@
         <h1>WEB BASED</h1>
         <h1>UI COLORBOT AIM ASSIST</h1>
         <div class="subtitle">PRECISION. PERFORMANCE. POWER.</div>
+
+        <!-- Announcement Section -->
+        <div class="announcement" id="announcement">
+            <div class="announcement-section">
+                <h2>🚨 Major Update Announcement: Migration from Windows Console to Web UI</h2>
+                <p>We are proud to announce a significant update to our software: The cheat has officially transitioned from the traditional Windows Console interface to a more advanced and user-friendly Web UI.</p>
+            </div>
+            <div class="announcement-section">
+                <h3>💡 Why the Move to Web UI?</h3>
+                <p>This upgrade is part of our continued commitment to improving usability, control, and performance. After months of development and testing, the Web UI offers a streamlined experience that makes managing your settings faster, easier, and more intuitive.</p>
+            </div>
+            <div class="announcement-section">
+                <h3>🔧 Key Benefits of the Web UI</h3>
+                <ul>
+                    <li>✅ Modern & Intuitive Interface</li>
+                    <li>✅ Real-Time Updates Without Restarting</li>
+                    <li>✅ Expanded Configurability</li>
+                    <li>✅ Improved Performance</li>
+                </ul>
+            </div>
+            <div class="announcement-section">
+                <h3>🔒 Server-Based Version Verification</h3>
+                <p>To maintain security, performance, and compatibility, we have implemented server-side version verification.</p>
+                <ul>
+                    <li>🛡️ The software now connects to our server to verify the version status.</li>
+                    <li>🔄 If a new version is released, previous versions will automatically stop working.</li>
+                    <li>📩 Users must contact us directly to obtain the latest updated software.</li>
+                </ul>
+            </div>
+            <div class="announcement-section">
+                <h3>⚠️ Console Version Deprecated</h3>
+                <p>Please note that the old console version is now deprecated. We strongly encourage all users to migrate to the Web UI immediately.</p>
+            </div>
+            <div class="announcement-section">
+                <h3>📞 Need Help?</h3>
+                <p>If you have any questions about the update, feel free to contact us directly. We’re here to support you throughout the transition.</p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -203,8 +194,13 @@
                 }
             `;
             document.head.appendChild(style);
+
+            // Show the announcement with a smooth transition
+            const announcement = document.getElementById('announcement');
+            setTimeout(() => {
+                announcement.classList.add('active');
+            }, 1000); // Delay before showing the announcement
         });
     </script>
 </body>
 </html>
-
