@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAL CHEESE - Undetectable Valorant Colorbot</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: linear-gradient(90deg, #ff0000, #ff7700, #ffdd00, #00ff00, #0000ff, #4b0082, #8b00ff);
+            background-size: 1400% 1400%;
+            animation: RGBscroll 10s linear infinite;
+        }
+        
+        header {
+            background-color: rgba(36, 41, 46, 0.8);
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        h1 {
+            color: #0366d6;
+        }
+        
+        .hero {
+            background-color: rgba(246, 248, 250, 0.8);
+            border-radius: 5px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: rgba(36, 41, 46, 0.8);
+            color: white;
+            margin-top: 2rem;
+        }
+
+        @keyframes RGBscroll {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+        .hero {
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature-card {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>VAL CHEESE <span class="animated-gradient">ColorBot PRO</span></h1>
+        <p>The Ultimate Undetectable Valorant Aim Assistant</p>
+    </header>
+    
+    <div class="container">
+        <section class="hero">
+            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6019dbcf-6aab-4582-bee2-f5f0c1aa806c.png" alt="VAL CHEESE colorbot interface showing precision aiming" class="pulse-animation"/>
+            <h2>Next-Gen Color Detection Technology</h2>
+            <div class="features-list">
+                <div class="feature-card bounce">✔️ 100% Undetectable</div>
+                <div class="feature-card bounce">✔️ Web UI Control</div>
+                <div class="feature-card bounce">✔️ Precision Aim</div>
+            </div>
+            <button class="cta-btn">Get Started Now</button>
+        </section>
+        
+        <section>
+            <h2>Why Choose VAL CHEESE?</h2>
+            <p>Our advanced color-based aiming system gives you the competitive edge with zero risk of detection. No injections, no cheats - just smart color recognition.</p>
+            
+            <h3>Key Benefits:</h3>
+            <ul class="benefits-list">
+                <li>🏆 Machine learning-powered enemy detection</li>
+                <li>🛡️ Completely external - no game files modified</li>
+                <li>🌐 Easy-to-use Web Interface for configuration</li>
+                <li>⚡ Real-time performance analytics</li>
+                <li>🔒 Regular updates to stay undetected</li>
+            </ul>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; <span id="year"></span> VAL CHEESE Technologies | For educational purposes only</p>
+        <div class="disclaimer">
+            Not affiliated with Riot Games or Valorant
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to update the copyright year automatically
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
