@@ -55,10 +55,21 @@
             letter-spacing: 0.2em;
         }
 
+        /* Styles for the initial content (title and subtitle) */
+        #initial-content {
+            opacity: 1;
+            transition: opacity 1s ease-out; /* Transition for fading out */
+        }
+
+        #initial-content.fade-out {
+            opacity: 0;
+        }
+
+        /* Styles for the announcement section */
         .announcement {
             display: none; /* Hidden by default */
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 1s ease-in; /* Transition for fading in */
         }
 
         .announcement.active {
@@ -103,11 +114,15 @@
         <div class="logo">
             <div class="logo-circle"></div>
         </div>
-        <h1>WEB BASED</h1>
-        <h1>UI COLORBOT AIM ASSIST</h1>
-        <div class="subtitle">PRECISION. PERFORMANCE. POWER.</div>
 
-        <!-- Announcement Section -->
+        <!-- Initial content to be faded out -->
+        <div id="initial-content">
+            <h1>WEB BASED</h1>
+            <h1>UI COLORBOT AIM ASSIST</h1>
+            <div class="subtitle">PRECISION. PERFORMANCE. POWER.</div>
+        </div>
+
+        <!-- Announcement Section (initially hidden) -->
         <div class="announcement" id="announcement">
             <div class="announcement-section">
                 <h2>🚨 Major Update Announcement: Migration from Windows Console to Web UI</h2>
@@ -150,6 +165,8 @@
         // Simple particle effect
         document.addEventListener('DOMContentLoaded', function() {
             const particles = document.getElementById('particles-js');
+            const initialContent = document.getElementById('initial-content'); // Get the initial content div
+            const announcement = document.getElementById('announcement'); // Get the announcement div
             
             function createParticle() {
                 const particle = document.createElement('div');
@@ -179,7 +196,7 @@
             // Continuous particle creation
             setInterval(createParticle, 1000);
             
-            // Add CSS animation
+            // Add CSS animation for particles
             const style = document.createElement('style');
             style.textContent = `
                 @keyframes float {
@@ -195,11 +212,22 @@
             `;
             document.head.appendChild(style);
 
-            // Show the announcement with a smooth transition
-            const announcement = document.getElementById('announcement');
+            // --- Smooth Transition Logic ---
+            // Delay before starting the fade-out of the initial content
+            const initialDisplayDuration = 2000; // 2 seconds
+            // Duration of the fade-out/fade-in transitions (must match CSS transition duration)
+            const transitionDuration = 1000; // 1 second
+
             setTimeout(() => {
-                announcement.classList.add('active');
-            }, 1000); // Delay before showing the announcement
+                // 1. Start fading out the initial content
+                initialContent.classList.add('fade-out');
+
+                // 2. After the initial content has faded out, fade in the announcement
+                setTimeout(() => {
+                    initialContent.style.display = 'none'; // Hide initial content completely
+                    announcement.classList.add('active'); // Show and fade in the announcement
+                }, transitionDuration); // Wait for the fade-out to complete
+            }, initialDisplayDuration);
         });
     </script>
 </body>
