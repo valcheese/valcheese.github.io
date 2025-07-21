@@ -3,113 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL CHEESE - Undetectable Valorant Colorbot</title>
+    <title>U COLORBOT AIM ASSIST</title>
     <style>
+        :root {
+            --primary: #3a0ca3;
+            --secondary: #f72585;
+            --accent: #4cc9f0;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
             margin: 0;
             padding: 0;
-            color: #333;
-            background: linear-gradient(90deg, #ff0000, #ff7700, #ffdd00, #00ff00, #0000ff, #4b0082, #8b00ff);
-            background-size: 1400% 1400%;
-            animation: RGBscroll 10s linear infinite;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
         }
-        
-        header {
-            background-color: rgba(36, 41, 46, 0.8);
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        
+
         .container {
+            text-align: center;
+            position: relative;
+            z-index: 1;
             max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        
-        h1 {
-            color: #0366d6;
-        }
-        
-        .hero {
-            background-color: rgba(246, 248, 250, 0.8);
-            border-radius: 5px;
             padding: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
         }
-        
-        footer {
-            text-align: center;
-            padding: 1rem 0;
-            background-color: rgba(36, 41, 46, 0.8);
-            color: white;
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(58, 12, 163, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-top: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+        }
+
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary), var(--secondary));
+            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(247, 37, 133, 0.6);
+            position: relative;
+            animation: pulse 2s infinite alternate;
+        }
+
+        .logo-circle::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            top: 10%;
+            left: 10%;
+            animation: rotate 10s linear infinite;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
             margin-top: 2rem;
         }
 
-        @keyframes RGBscroll {
+        .tech-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+            background: rgba(74, 201, 240, 0.2);
+        }
+
+        @keyframes pulse {
             0% {
-                background-position: 0% 50%;
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(247, 37, 133, 0.6);
             }
             100% {
-                background-position: 100% 50%;
+                transform: scale(1.05);
+                box-shadow: 0 0 50px rgba(247, 37, 133, 0.8);
             }
         }
-        .hero {
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
-        .feature-card {
-            background-color: rgba(0, 0, 0, 0.7);
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .logo-circle {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>VAL CHEESE <span class="animated-gradient">ColorBot PRO</span></h1>
-        <p>The Ultimate Undetectable Valorant Aim Assistant</p>
-    </header>
-    
+    <div class="particles" id="particles-js"></div>
     <div class="container">
-        <section class="hero">
-            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6019dbcf-6aab-4582-bee2-f5f0c1aa806c.png" alt="VAL CHEESE colorbot interface showing precision aiming" class="pulse-animation"/>
-            <h2>Next-Gen Color Detection Technology</h2>
-            <div class="features-list">
-                <div class="feature-card bounce">✔️ 100% Undetectable</div>
-                <div class="feature-card bounce">✔️ Web UI Control</div>
-                <div class="feature-card bounce">✔️ Precision Aim</div>
-            </div>
-            <button class="cta-btn">Get Started Now</button>
-        </section>
-        
-        <section>
-            <h2>Why Choose VAL CHEESE?</h2>
-            <p>Our advanced color-based aiming system gives you the competitive edge with zero risk of detection. No injections, no cheats - just smart color recognition.</p>
-            
-            <h3>Key Benefits:</h3>
-            <ul class="benefits-list">
-                <li>🏆 Machine learning-powered enemy detection</li>
-                <li>🛡️ Completely external - no game files modified</li>
-                <li>🌐 Easy-to-use Web Interface for configuration</li>
-                <li>⚡ Real-time performance analytics</li>
-                <li>🔒 Regular updates to stay undetected</li>
-            </ul>
-        </section>
-    </div>
-    
-    <footer>
-        <p>&copy; <span id="year"></span> VAL CHEESE Technologies | For educational purposes only</p>
-        <div class="disclaimer">
-            Not affiliated with Riot Games or Valorant
+        <div class="logo">
+            <div class="logo-circle"></div>
         </div>
-    </footer>
+        <h1>WEB BASED</h1>
+        <h1>U COLORBOT AIM ASSIST</h1>
+        <div class="subtitle">PRECISION. PERFORMANCE. POWER.</div>
+    </div>
 
     <script>
-        // Simple script to update the copyright year automatically
-        document.getElementById('year').textContent = new Date().getFullYear();
+        // Simple particle effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const particles = document.getElementById('particles-js');
+            
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = Math.random() * 5 + 2 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.backgroundColor = `rgba(74, 201, 240, ${Math.random() * 0.5})`;
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.top = Math.random() * 100 + 'vh';
+                
+                const duration = Math.random() * 10 + 5;
+                particle.style.animation = `float ${duration}s linear infinite`;
+                
+                particles.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }
+            
+            // Create initial particles
+            for (let i = 0; i < 50; i++) {
+                createParticle();
+            }
+            
+            // Continuous particle creation
+            setInterval(createParticle, 1000);
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0% {
+                        transform: translateY(0) rotate(0deg);
+                        opacity: 1;
+                    }
+                    100% {
+                        transform: translateY(-100vh) rotate(360deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
     </script>
 </body>
 </html>
+
