@@ -111,7 +111,6 @@
 
             /* --- FLEXBOX STYLES --- */
             justify-content: center; /* Center items horizontally */
-            justify-content: center; /* Center items horizontally */
             gap: 1rem; /* Space between flex items */
             align-items: stretch; /* Make items stretch to equal height */
         }
@@ -119,6 +118,73 @@
         .announcement.active {
             opacity: 1;
             visibility: visible;
+        }
+
+        /* Styles for the new showcase section */
+        .showcase {
+            display: flex; /* Use flexbox for content within showcase */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items horizontally */
+            opacity: 0;
+            transition: opacity 0.4s ease-in, visibility 0.4s;
+            visibility: hidden;
+            text-align: center; /* Center text within the showcase section */
+            padding: 1rem;
+        }
+
+        .showcase.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .showcase h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .showcase p {
+            font-size: 1.1rem;
+            color: var(--light);
+            margin-bottom: 2rem;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Ensure gallery takes full width of its parent */
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .video-gallery video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .video-gallery video:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
         }
 
         .particles {
@@ -257,12 +323,18 @@
                 flex: 1 1 calc(33.333% - 0.66rem); /* 3 columns */
                 max-width: calc(33.333% - 0.66rem);
             }
+            .video-gallery {
+                grid-template-columns: repeat(4, 1fr);
+            }
         }
 
         @media (max-width: 900px) {
             .announcement-section, .action-section {
                 flex: 1 1 calc(50% - 0.5rem); /* 2 columns */
                 max-width: calc(50% - 0.5rem);
+            }
+            .video-gallery {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
@@ -277,6 +349,9 @@
             .container.container-scrollable { /* Apply to the scrollable state */
                 max-width: 95%; /* Give more horizontal space */
                 padding: 1rem;
+            }
+            .video-gallery {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -412,6 +487,39 @@
                 <a href="#" class="action-button">Buy Now</a>
             </div>
         </div>
+
+        <!-- New Showcase Section (initially hidden) -->
+        <div class="showcase" id="showcase" style="display: none;">
+            <h2>Our Showcase</h2>
+            <p>Explore some of our features and capabilities. Watch the videos below to see it in action!</p>
+            <div class="video-gallery">
+                <!-- Replace with your actual video paths -->
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster1.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster2.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster3.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster4.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster5.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster6.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster7.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+                <video controls autoplay muted loop playsinline poster="path/to/your/poster8.jpg">
+                    <source src="val.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -420,6 +528,7 @@
             const particles = document.getElementById('particles-js');
             const initialContent = document.getElementById('initial-content'); // Get the initial content div
             const announcement = document.getElementById('announcement'); // Get the announcement div
+            const showcase = document.getElementById('showcase'); // Get the new showcase div
             const mainContainer = document.getElementById('main-container'); // Get the main container
             
             // New tab elements
@@ -490,25 +599,40 @@
                 e.preventDefault();
                 mainTab.classList.add('active');
                 showcaseTab.classList.remove('active');
-                // Show the announcement section when Main tab is active
-                announcement.style.pointerEvents = 'auto'; // Reset pointer events
-                mainContainer.classList.add('container-scrollable');
+
+                // Hide showcase, show announcement
+                showcase.classList.remove('active');
+                showcase.style.visibility = 'hidden'; // Hide using visibility
                 setTimeout(() => {
-                    announcement.classList.add('active');
-                }, 10); // Small delay to ensure layout is ready
+                    showcase.style.display = 'none'; // Then set display to none
+                    announcement.style.display = 'flex'; // Show announcement
+                    setTimeout(() => {
+                        announcement.classList.add('active');
+                        announcement.style.visibility = 'visible'; // Make visible
+                    }, 10); // Small delay for transition
+                }, 400); // Wait for showcase fade-out (0.4s transition)
+
+                mainContainer.classList.add('container-scrollable');
             });
 
             showcaseTab.addEventListener('click', function(e) {
                 e.preventDefault();
                 showcaseTab.classList.add('active');
                 mainTab.classList.remove('active');
-                // Hide the announcement section when Showcase tab is active
-                announcement.style.pointerEvents = 'none'; // Prevent interaction during fade
+
+                // Hide announcement, show showcase
                 announcement.classList.remove('active');
+                announcement.style.visibility = 'hidden'; // Hide using visibility
                 setTimeout(() => {
-                    mainContainer.classList.remove('container-scrollable');
-                    announcement.style.pointerEvents = 'auto'; // Reset after transition completes
-                }, 400); // Remove scroll after fade completes
+                    announcement.style.display = 'none'; // Then set display to none
+                    showcase.style.display = 'flex'; // Show showcase
+                    setTimeout(() => {
+                        showcase.classList.add('active');
+                        showcase.style.visibility = 'visible'; // Make visible
+                    }, 10); // Small delay for transition
+                }, 400); // Wait for announcement fade-out (0.4s transition)
+
+                mainContainer.classList.add('container-scrollable');
             });
         });
     </script>
