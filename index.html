@@ -32,6 +32,10 @@
             z-index: 1;
             max-width: 800px;
             padding: 2rem;
+            /* Allow container to grow vertically if content wraps */
+            height: auto;
+            max-height: 90vh; /* Limit height to prevent overflow on small screens */
+            overflow-y: auto; /* Add scroll if content exceeds max-height */
         }
 
         h1 {
@@ -70,10 +74,17 @@
             display: none; /* Hidden by default */
             opacity: 0;
             transition: opacity 1s ease-in; /* Transition for fading in */
+
+            /* --- NEW FLEXBOX STYLES --- */
+            display: flex; /* Make it a flex container */
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: center; /* Center items horizontally */
+            gap: 1rem; /* Space between flex items */
+            align-items: stretch; /* Make items stretch to equal height */
         }
 
         .announcement.active {
-            display: block;
+            display: flex; /* Override display: none when active */
             opacity: 1;
         }
 
@@ -88,11 +99,18 @@
 
         /* Styles for the announcement sections */
         .announcement-section {
-            margin: 1rem 0;
+            margin: 0; /* Remove margin as gap handles spacing */
             background: rgba(255, 255, 255, 0.1);
             padding: 1rem;
             border-radius: 8px;
             transition: transform 0.3s ease, background 0.3s ease; /* Transition for hover effect */
+
+            /* --- NEW FLEX ITEM STYLES --- */
+            flex: 1 1 300px; /* Allow items to grow, shrink, and have a base width of 300px */
+            max-width: calc(50% - 0.5rem); /* Max width for two columns with gap */
+            min-width: 280px; /* Minimum width before wrapping */
+            box-sizing: border-box; /* Include padding in width calculation */
+            text-align: left; /* Align text within the box to the left */
         }
 
         .announcement-section:hover {
@@ -105,12 +123,23 @@
             h1 {
                 font-size: 2.5rem;
             }
+            .announcement-section {
+                max-width: 100%; /* On smaller screens, stack them */
+            }
+        }
+
+        /* Adjust container for smaller screens when announcement is active */
+        @media (max-width: 768px) {
+            .container.announcement-active { /* Add this class via JS when announcement is shown */
+                max-width: 95%; /* Give more horizontal space */
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="particles" id="particles-js"></div>
-    <div class="container">
+    <div class="container" id="main-container"> <!-- Added ID for potential JS use -->
         <div class="logo">
             <div class="logo-circle"></div>
         </div>
@@ -137,7 +166,7 @@
                 <ul>
                     <li>✅ Modern & Intuitive Interface</li>
                     <li>✅ Real-Time Updates Without Restarting</li>
-                    <li>✅ Expanded Configurability</li>
+                    <li><li>✅ Expanded Configurability</li>
                     <li>✅ Improved Performance</li>
                 </ul>
             </div>
@@ -167,7 +196,8 @@
             const particles = document.getElementById('particles-js');
             const initialContent = document.getElementById('initial-content'); // Get the initial content div
             const announcement = document.getElementById('announcement'); // Get the announcement div
-            
+            const mainContainer = document.getElementById('main-container'); // Get the main container
+
             function createParticle() {
                 const particle = document.createElement('div');
                 particle.style.position = 'absolute';
@@ -226,6 +256,7 @@
                 setTimeout(() => {
                     initialContent.style.display = 'none'; // Hide initial content completely
                     announcement.classList.add('active'); // Show and fade in the announcement
+                    mainContainer.classList.add('announcement-active'); // Add class to container for responsive adjustments
                 }, transitionDuration); // Wait for the fade-out to complete
             }, initialDisplayDuration);
         });
