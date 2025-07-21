@@ -67,6 +67,17 @@
         #initial-content {
             opacity: 1;
             transition: opacity 1s ease-out; /* Transition for fading out */
+
+            /* --- NEW STYLES FOR VERTICAL CENTERING --- */
+            display: flex;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally (for single lines) */
+            height: 100%; /* Make it take full height of its parent (.container) */
+            width: 100%; /* Make it take full width of its parent (.container) */
+            position: absolute; /* Position absolutely to overlay and take full space */
+            top: 0;
+            left: 0;
         }
 
         #initial-content.fade-out {
