@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VAL CHEESE</title>
+    <title>VAL CHEESE AIM ASSIST</title>
     <link rel="icon" href="cheeselogo1.png">
     <style>
         :root {
@@ -14,17 +14,17 @@
             --light: #f8f9fa;
 
             /* New unique colors for boxes */
-            --box-color-1: rgba(76, 201, 240, 0.15);
-            --box-color-2: rgba(247, 37, 133, 0.15);
-            --box-color-3: rgba(58, 12, 163, 0.15);
-            --box-color-4: rgba(255, 165, 0, 0.15);
-            --box-color-5: rgba(0, 200, 83, 0.15);
-            --box-color-6: rgba(255, 69, 0, 0.15);
-            --box-color-7: rgba(138, 43, 226, 0.15);
-            --box-color-8: rgba(255, 215, 0, 0.15);
+            --box-color-1: rgba(76, 201, 240, 0.15); /* Accent light blue */
+            --box-color-2: rgba(247, 37, 133, 0.15); /* Secondary pink */
+            --box-color-3: rgba(58, 12, 163, 0.15);  /* Primary purple */
+            --box-color-4: rgba(255, 165, 0, 0.15);  /* Orange */
+            --box-color-5: rgba(0, 200, 83, 0.15);   /* Green */
+            --box-color-6: rgba(255, 69, 0, 0.15);   /* Red-orange */
+            --box-color-7: rgba(138, 43, 226, 0.15); /* Blue-violet */
+            --box-color-8: rgba(255, 215, 0, 0.15);  /* Gold */
 
             /* Standout color for purchase */
-            --purchase-standout-bg: linear-gradient(45deg, #ff4d4d, #f3ff47, #4dfd72);
+            --purchase-standout-bg: linear-gradient(45deg, #ff4d4d, #f3ff47, #4dfd72); /* RGB gradient */
             --purchase-standout-shadow: 0 0 25px rgba(255, 77, 77, 0.7);
             --rgb-animation: rgbWave 5s linear infinite;
         }
@@ -39,23 +39,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevents body scrollbar if particles go out of bounds */
         }
 
         .container {
             text-align: center;
             position: relative;
             z-index: 1;
-            max-width: 800px;
+            max-width: 800px; /* This max-width applies to the overall container, not the flex items */
             padding: 2rem;
+            /* height, max-height, and overflow-y are now controlled by .container-scrollable */
         }
 
         /* New class for scrollable container state */
         .container.container-scrollable {
-            height: auto;
-            max-height: 90vh;
-            overflow-y: auto;
-            max-width: 1200px;
+            height: auto; /* Allow height to adjust based on content */
+            max-height: 90vh; /* Apply max-height here */
+            overflow-y: auto; /* Apply overflow-y here */
+            max-width: 1200px; /* Increase max-width for the scrollable state to accommodate 4 columns */
         }
 
         h1 {
@@ -82,16 +83,16 @@
         /* Styles for the initial content (title and subtitle) */
         #initial-content {
             opacity: 1;
-            transition: opacity 1s ease-out;
+            transition: opacity 1s ease-out; /* Transition for fading out */
 
             /* --- NEW STYLES FOR VERTICAL CENTERING --- */
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            position: absolute;
+            flex-direction: column; /* Stack children vertically */
+            justify-content: center; /* Center content vertically */
+            align-items: center; /* Center content horizontally (for single lines) */
+            height: 100%; /* Make it take full height of its parent (.container) */
+            width: 100%; /* Make it take full width of its parent (.container) */
+            position: absolute; /* Position absolutely to overlay and take full space */
             top: 0;
             left: 0;
         }
@@ -102,16 +103,16 @@
 
         /* Styles for the announcement section */
         .announcement {
-            display: flex;
+            display: flex; /* Always rendered in flex mode */
             flex-wrap: wrap;
             opacity: 0;
             transition: opacity 0.4s ease-in, visibility 0.4s;
-            visibility: hidden;
+            visibility: hidden; /* Hide using visibility to maintain layout */
 
             /* --- FLEXBOX STYLES --- */
-            justify-content: center;
-            gap: 1rem;
-            align-items: stretch;
+            justify-content: center; /* Center items horizontally */
+            gap: 1rem; /* Space between flex items */
+            align-items: stretch; /* Make items stretch to equal height */
         }
 
         .announcement.active {
@@ -121,13 +122,13 @@
 
         /* Styles for the new showcase section */
         .showcase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            display: flex; /* Use flexbox for content within showcase */
+            flex-direction: column; /* Stack elements vertically */
+            align-items: center; /* Center items horizontally */
             opacity: 0;
             transition: opacity 0.4s ease-in, visibility 0.4s;
             visibility: hidden;
-            text-align: center;
+            text-align: center; /* Center text within the showcase section */
             padding: 1rem;
         }
 
@@ -136,25 +137,46 @@
             visibility: visible;
         }
 
-        .showcase h2 {
+        /* Styles for the new system requirements section */
+        .system-requirements {
+            display: flex; /* Use flexbox for content within system requirements */
+            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: center; /* Center items horizontally */
+            gap: 1rem; /* Space between flex items */
+            align-items: stretch; /* Make items stretch to equal height */
+            opacity: 0;
+            transition: opacity 0.4s ease-in, visibility 0.4s;
+            visibility: hidden;
+            text-align: center; /* Center text within the section */
+            padding: 1rem;
+        }
+
+        .system-requirements.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .showcase h2, .system-requirements h2 {
             font-size: 2.5rem;
             color: var(--accent);
             margin-bottom: 1rem;
+            width: 100%; /* Ensure heading takes full width */
         }
 
-        .showcase p {
+        .showcase p, .system-requirements p {
             font-size: 1.1rem;
             color: var(--light);
             margin-bottom: 2rem;
+            width: 100%; /* Ensure paragraph takes full width */
         }
 
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
             gap: 1rem;
             justify-content: center;
             align-items: center;
-            width: 100%;
+            width: 100%; /* Ensure gallery takes full width of its parent */
         }
 
         .image-gallery img {
@@ -199,13 +221,13 @@
 
         /* Styles for the announcement sections */
         .announcement-section {
-            margin: 0;
-            background: rgba(255, 255, 255, 0.1);
+            margin: 0; /* Remove margin as gap handles spacing */
+            background: rgba(255, 255, 255, 0.1); /* Default fallback */
             padding: 1rem;
             border-radius: 8px;
-            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-            text-align: left;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease; /* Transition for hover effect */
+            text-align: left; /* Align text within the box to the left */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
         }
 
         /* Unique colors for each announcement section */
@@ -215,6 +237,9 @@
         .announcement-section:nth-child(4) { background: var(--box-color-4); }
         .announcement-section:nth-child(5) { background: var(--box-color-5); }
         .announcement-section:nth-child(6) { background: var(--box-color-6); }
+        /* For the Arduino section, if it were a separate box in announcement */
+        .announcement-section:nth-child(7) { background: var(--box-color-8); }
+
 
         .announcement-section:hover {
             transform: translateY(-5px) scale(1.03);
@@ -227,28 +252,28 @@
 
         /* New styles for Discord and Purchase sections */
         .action-section {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.15); /* Default fallback */
             padding: 1.5rem;
             border-radius: 10px;
             text-align: center;
-            margin-top: 0;
+            margin-top: 0; /* Reset margin-top as gap handles spacing */
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
         }
 
         /* Unique colors for action sections */
-        .action-section:nth-of-type(1) {
+        .action-section:nth-of-type(1) { /* Discord box */
             background: var(--box-color-7);
         }
 
-        .action-section:nth-of-type(2) {
+        .action-section:nth-of-type(2) { /* Purchase box - STANDS OUT */
             background: var(--purchase-standout-bg);
             background-size: 200% 200%;
             animation: var(--rgb-animation);
-            color: var(--light);
+            color: var(--light); /* Ensure text is readable */
             box-shadow: var(--purchase-standout-shadow);
-            border: 2px solid var(--accent);
-            transform: scale(1.02);
+            border: 2px solid var(--accent); /* Add a border for extra pop */
+            transform: scale(1.02); /* Slightly larger by default */
         }
 
         .action-section:hover {
@@ -273,7 +298,7 @@
 
 
         .action-section h3 {
-            color: var(--accent);
+            color: var(--accent); /* Default for action sections */
             margin-top: 0;
             font-size: 1.5rem;
         }
@@ -305,21 +330,35 @@
         .action-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(45deg, var(--secondary), var(--primary));
+            background: linear-gradient(45deg, var(--secondary), var(--primary)); /* Reverse gradient on hover */
         }
 
         /* Flex item sizing for 4-in-a-row layout */
         .announcement-section, .action-section {
-            flex: 1 1 calc(25% - 0.75rem);
-            max-width: calc(25% - 0.75rem);
-            min-width: 200px;
-            box-sizing: border-box;
+            flex: 1 1 calc(25% - 0.75rem); /* Four columns with 1rem gap */
+            max-width: calc(25% - 0.75rem); /* Adjust max-width for four columns */
+            min-width: 200px; /* Smaller min-width to allow more items per row */
+            box-sizing: border-box; /* Include padding in width calculation */
         }
+
+        /* Styles for images within announcement sections */
+        .announcement-section img {
+            max-width: 100%; /* Ensure image fits within its container */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 5px; /* Slightly rounded corners for images */
+            margin-top: 10px; /* Space above the image */
+            margin-bottom: 10px; /* Space below the image */
+            display: block; /* Occupy full width and allow margin auto for centering */
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for images */
+        }
+
 
         /* Responsive adjustments for 4-in-a-row */
         @media (max-width: 1200px) {
             .announcement-section, .action-section {
-                flex: 1 1 calc(33.333% - 0.66rem);
+                flex: 1 1 calc(33.333% - 0.66rem); /* 3 columns */
                 max-width: calc(33.333% - 0.66rem);
             }
             .video-gallery {
@@ -329,7 +368,7 @@
 
         @media (max-width: 900px) {
             .announcement-section, .action-section {
-                flex: 1 1 calc(50% - 0.5rem);
+                flex: 1 1 calc(50% - 0.5rem); /* 2 columns */
                 max-width: calc(50% - 0.5rem);
             }
             .video-gallery {
@@ -339,14 +378,14 @@
 
         @media (max-width: 600px) {
             .announcement-section, .action-section {
-                flex: 1 1 100%;
+                flex: 1 1 100%; /* 1 column */
                 max-width: 100%;
             }
             h1 {
                 font-size: 2.5rem;
             }
-            .container.container-scrollable {
-                max-width: 95%;
+            .container.container-scrollable { /* Apply to the scrollable state */
+                max-width: 95%; /* Give more horizontal space */
                 padding: 1rem;
             }
             .video-gallery {
@@ -357,12 +396,12 @@
         /* Styles for the new tab navigation */
         .tab-navigation {
             opacity: 0;
-            transition: opacity 0.5s ease-in 0.5s;
+            transition: opacity 0.5s ease-in 0.5s; /* Fade in with delay */
             position: absolute;
-            top: 20px;
+            top: 20px; /* Adjust as needed */
             left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
+            z-index: 10; /* Ensure it's above other content */
             display: flex;
             gap: 15px;
             background-color: rgba(0, 0, 0, 0.5);
@@ -384,7 +423,7 @@
         }
 
         .tab-item:hover {
-            background-color: rgba(76, 201, 240, 0.2);
+            background-color: rgba(76, 201, 240, 0.2); /* Accent light blue */
             transform: translateY(-2px);
         }
 
@@ -423,6 +462,7 @@
     <div class="tab-navigation" style="display: none;">
         <a href="#" class="tab-item active" id="main-tab">MAIN</a>
         <a href="#" class="tab-item" id="showcase-tab">SHOWCASE</a>
+        <a href="#" class="tab-item" id="requirements-tab">REQUIREMENTS</a>
     </div>
     <div class="particles" id="particles-js"></div>
     <div class="container" id="main-container">
@@ -432,8 +472,8 @@
 
         <!-- Initial content to be faded out -->
         <div id="initial-content">
-            <h1>WEB BASED UI</h1>
-            <h1>VAL CHEESE AIM ASSIST</h1>
+            <h1>WEB BASED</h1>
+            <h1>UI COLORBOT AIM ASSIST</h1>
             <div class="subtitle">PRECISION. PERFORMANCE. POWER.</div>
         </div>
 
@@ -460,18 +500,18 @@
                 <h3>🔒 Server-Based Version Verification</h3>
                 <p>To maintain security, performance, and compatibility, we have implemented server-side version verification.</p>
                 <ul>
-                    <li>🛡️ The software now connects to the server to verify the version status.</li>
+                    <li>🛡️ The software now connects to our server to verify the version status.</li>
                     <li>🔄 If a new version is released, previous versions will automatically stop working.</li>
-                    <li>📩 Users must contact MogulCyre directly to obtain the latest updated software.</li>
+                    <li>📩 Users must contact us directly to obtain the latest updated software.</li>
                 </ul>
             </div>
             <div class="announcement-section">
                 <h3>⚠️ Console Version Deprecated</h3>
-                <p>Please note that the old console version is now deprecated. I strongly encourage all users to migrate to the Web UI immediately.</p>
+                <p>Please note that the old console version is now deprecated. We strongly encourage all users to migrate to the Web UI immediately.</p>
             </div>
             <div class="announcement-section">
                 <h3>📞 Need Help?</h3>
-                <p>If you have any questions about the update, feel free to contact MogulCyre in discord directly.</p>
+                <p>If you have any questions about the update, feel free to contact us directly. We’re here to support you throughout the transition.</p>
             </div>
 
             <!-- New Discord and Purchase Sections -->
@@ -482,7 +522,7 @@
             </div>
             <div class="action-section">
                 <h3>🛒 Purchase Access</h3>
-                <p>Ready to elevate your game? Get instant access to Val Cheese.</p>
+                <p>Ready to elevate your game? Get instant access to the Web UI Colorbot Aim Assist.</p>
                 <a href="#" class="action-button">Buy Now</a>
             </div>
         </div>
@@ -519,18 +559,62 @@
                 </video>
             </div>
         </div>
+
+        <!-- New System Requirements Section (initially hidden) -->
+        <div class="system-requirements" id="system-requirements" style="display: none;">
+            <h2>System Requirements</h2>
+            <p>To ensure optimal performance and full functionality of the VAL CHEESE AIM ASSIST, please ensure your system meets the following requirements:</p>
+            <div class="announcement-section">
+                <h3>Arduino Leonardo</h3>
+                <img src="leonardo.jpg" alt="Arduino Leonardo" style="max-width: 150px;"> <!-- Added image -->
+                <ul>
+                    <li>The Arduino Leonardo is a microcontroller board based on the ATmega32u4 chip. It’s part of the official Arduino family and is unique because it has built-in USB communication, which means it can act like a keyboard, mouse, or game controller without needing additional chips.</li>
+                </ul>
+            </div>
+            <div class="announcement-section">
+                <h3>USB Host Shield</h3>
+                <img src="usb.jpg" alt="USB Host Shield" style="max-width: 150px;"> <!-- Added image -->
+                <ul>
+                    <li>A USB Host Shield is an add-on board for Arduino that allows it to communicate with and control USB devices (like keyboards, mice, gamepads, flash drives, or even smartphones). It gives your Arduino the ability to act like a USB host, similar to what a PC does.</li>
+
+                </ul>
+            </div>
+            <div class="announcement-section">
+                <h3>Where to buy?</h3>
+                <ul>
+                    <li>Looking to purchase the Arduino Leonardo or USB Host Shield?</li>
+                    <li>You can conveniently find them on trusted online platforms such as:</li>
+                    <li>Shopee</li>
+                    <li>Lazada</li>
+                    <li>Facebook Marketplace</li>
+                    <li>Simply search for "Arduino Leonardo" or "USB Host Shield" on any of these platforms to explore available sellers, compare prices, and choose the best option for your needs. Make sure to check product reviews and seller ratings before buying!</li>
+                </ul>
+            </div>
+            <div class="announcement-section">
+                <h3>Important Notes</h3>
+                <ul>
+                    <li>⚠️ **No Virtual Machines:** Not supported due to hardware interaction.</li>
+                    <li>🔒 **Antivirus/Firewall:** May require exceptions for proper operation.</li>
+                    <li>📈 **Performance:** A stable internet connection is recommended for updates.</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script>
+        // Simple particle effect
         document.addEventListener('DOMContentLoaded', function() {
             const particles = document.getElementById('particles-js');
-            const initialContent = document.getElementById('initial-content');
-            const announcement = document.getElementById('announcement');
-            const showcase = document.getElementById('showcase');
-            const mainContainer = document.getElementById('main-container');
+            const initialContent = document.getElementById('initial-content'); // Get the initial content div
+            const announcement = document.getElementById('announcement'); // Get the announcement div
+            const showcase = document.getElementById('showcase'); // Get the new showcase div
+            const systemRequirements = document.getElementById('system-requirements'); // Get the new system requirements div
+            const mainContainer = document.getElementById('main-container'); // Get the main container
             
+            // New tab elements
             const mainTab = document.getElementById('main-tab');
             const showcaseTab = document.getElementById('showcase-tab');
+            const requirementsTab = document.getElementById('requirements-tab'); // New requirements tab
 
             function createParticle() {
                 const particle = document.createElement('div');
@@ -552,70 +636,100 @@
                 }, duration * 1000);
             }
             
+            // Create initial particles
             for (let i = 0; i < 50; i++) {
                 createParticle();
             }
             
+            // Continuous particle creation
             setInterval(createParticle, 1000);
 
+            // Keep particles container visible and on top
             particles.style.pointerEvents = 'none';
             particles.style.zIndex = '0';
 
-            const initialDisplayDuration = 2000;
-            const transitionDuration = 1000;
+            // --- Smooth Transition Logic ---
+            // Delay before starting the fade-out of the initial content
+            const initialDisplayDuration = 2000; // 2 seconds
+            // Duration of the fade-out/fade-in transitions (must match CSS transition duration)
+            const transitionDuration = 1000; // 1 second
 
             setTimeout(() => {
+                // 1. Start fading out the initial content
                 initialContent.classList.add('fade-out');
 
+                // 2. After the initial content has faded out, fade in the announcement
                 setTimeout(() => {
-                    initialContent.style.display = 'none';
-                    announcement.classList.add('active');
+                    initialContent.style.display = 'none'; // Hide initial content completely
+                    announcement.classList.add('active'); // Show and fade in the announcement
                     
+                    // Add the class to enable scrolling for the container
                     mainContainer.classList.add('container-scrollable');
                     
+                    // Show and fade in the tab navigation after transition
                     const tabs = document.querySelector('.tab-navigation');
                     tabs.style.display = 'flex';
                     setTimeout(() => {
                         tabs.style.opacity = '1';
-                    }, 50);
-                }, transitionDuration);
+                    }, 50); // Small delay to allow display change before opacity transition 
+                }, transitionDuration); // Wait for the fade-out to complete
             }, initialDisplayDuration);
 
-            mainTab.addEventListener('click', function(e) {
-                e.preventDefault();
-                mainTab.classList.add('active');
-                showcaseTab.classList.remove('active');
+            // --- Tab Functionality ---
+            function hideAllSections() {
+                announcement.classList.remove('active');
+                announcement.style.visibility = 'hidden';
+                announcement.style.display = 'none';
 
                 showcase.classList.remove('active');
                 showcase.style.visibility = 'hidden';
-                setTimeout(() => {
-                    showcase.style.display = 'none';
-                    announcement.style.display = 'flex';
-                    setTimeout(() => {
-                        announcement.classList.add('active');
-                        announcement.style.visibility = 'visible';
-                    }, 10);
-                }, 400);
+                showcase.style.display = 'none';
 
+                systemRequirements.classList.remove('active');
+                systemRequirements.style.visibility = 'hidden';
+                systemRequirements.style.display = 'none';
+            }
+
+            function activateTab(tabElement) {
+                mainTab.classList.remove('active');
+                showcaseTab.classList.remove('active');
+                requirementsTab.classList.remove('active');
+                tabElement.classList.add('active');
+            }
+
+            mainTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                activateTab(mainTab);
+                hideAllSections();
+                announcement.style.display = 'flex';
+                setTimeout(() => {
+                    announcement.classList.add('active');
+                    announcement.style.visibility = 'visible';
+                }, 10);
                 mainContainer.classList.add('container-scrollable');
             });
 
             showcaseTab.addEventListener('click', function(e) {
                 e.preventDefault();
-                showcaseTab.classList.add('active');
-                mainTab.classList.remove('active');
-
-                announcement.classList.remove('active');
-                announcement.style.visibility = 'hidden';
+                activateTab(showcaseTab);
+                hideAllSections();
+                showcase.style.display = 'flex';
                 setTimeout(() => {
-                    announcement.style.display = 'none';
-                    showcase.style.display = 'flex';
-                    setTimeout(() => {
-                        showcase.classList.add('active');
-                        showcase.style.visibility = 'visible';
-                    }, 10);
-                }, 400);
+                    showcase.classList.add('active');
+                    showcase.style.visibility = 'visible';
+                }, 10);
+                mainContainer.classList.add('container-scrollable');
+            });
 
+            requirementsTab.addEventListener('click', function(e) {
+                e.preventDefault();
+                activateTab(requirementsTab);
+                hideAllSections();
+                systemRequirements.style.display = 'flex';
+                setTimeout(() => {
+                    systemRequirements.classList.add('active');
+                    systemRequirements.style.visibility = 'visible';
+                }, 10);
                 mainContainer.classList.add('container-scrollable');
             });
         });
